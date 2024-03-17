@@ -8,7 +8,8 @@ sudo yum install -y nano java-17-openjdk open-vm-tools curl wget unzip grep open
 sudo pip3 install requests bs4
 sudo dnf install -y epel-release
 sudo dnf install -y screen ufw cockpit
-sudo systemctl enable --now ufw
+sudo systemctl enable ufw
+sudo systemctl start ufw
 sleep 5
 sudo systemctl enable --now cockpit.socket
 sudo systemctl restart cockpit
@@ -72,7 +73,7 @@ systemctl enable mcbedrock
 python3 ./updater/mcserver_autoupdater.py
 
 #Set automatic scheduling for update
-cat <<EOF | crontab -e
+cat <<EOF | crontab -
 0 5 * * * /usr/bin/python3 /data/minecraft_bedrock_updater/updater/mcserver_autoupdater.py > /data/minecraft_bedrock_updater/updater/cron.log
 EOF
 
