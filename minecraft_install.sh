@@ -19,7 +19,7 @@ sudo ufw allow 19132/udp
 #Create directory data at /
 sudo mkdir /data
 #Extract folder
-sudo tar -xvf minecraft_bedrock_updater.tar /data
+sudo tar -xvf minecraft_bedrock_updater.tar -C /data
 #Delete archive
 sudo rm -f minecraft_bedrock_updater.tar
 #Create user mcserver
