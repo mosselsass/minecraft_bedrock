@@ -58,6 +58,7 @@ chown -R mcserver: /data/minecraft_bedrock_updater/
 systemctl enable mcbedrock
 
 #Install - update minecraft
+cd /data/minecraft_bedrock_updater/
 python3 ./updater/mcserver_autoupdater.py
 
 #Set automatic scheduling for update
