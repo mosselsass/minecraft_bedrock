@@ -67,3 +67,7 @@ cat <<EOF | crontab -
 EOF
 #Restart cron service
 service crond reload
+
+#Start minecraft bedrock
+sudo systemctl start mcbedrock
+sudo systemctl status mcbedrock
