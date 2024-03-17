@@ -8,8 +8,7 @@ sudo yum install -y nano java-17-openjdk open-vm-tools curl wget unzip grep open
 sudo pip3 install requests bs4
 sudo dnf install -y epel-release
 sudo dnf install -y screen ufw cockpit
-sudo systemctl enable ufw
-sudo systemctl start ufw
+sudo systemctl enable --now ufw.service
 sleep 5
 sudo systemctl enable --now cockpit.socket
 sudo systemctl restart cockpit
