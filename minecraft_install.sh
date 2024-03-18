@@ -70,7 +70,9 @@ sudo service crond reload
 sudo systemctl stop mcbedrock
 sudo systemctl status mcbedrock
 #Creating service file
-sudo touch parameters.sh
+sudo touch /home/nqe/minecraft_bedrock/parameters.sh
+#Change directory
+cd /home/nqe/minecraft_bedrock/
 #Insert text
 sudo tee > parameters.sh << 'EOF'
 #!/bin/bash
