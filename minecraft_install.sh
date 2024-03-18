@@ -144,9 +144,9 @@ else
 fi
 
 read -p "Enter your Xbox gamername : " gamername
-sudo sed -i '1s/.*/[{"ignoresPlayerLimit":false,"name":tempname}]/' /data/minecraft_bedrock_updater/running/allowlist.json
+sudo sed -i '1s/.*/[{"ignoresPlayerLimit":false,"name":tempname,"xuid":""}]/' /data/minecraft_bedrock_updater/running/allowlist.json
 sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/allowlist.json
-sudo sed -i '1s/.*/[{"permission": "operator","name": "tempname"}]/' /data/minecraft_bedrock_updater/running/permissions.json
+sudo sed -i '1s/.*/[{"permission": "operator","name": "tempname","xuid":""}]/' /data/minecraft_bedrock_updater/running/permissions.json
 sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/permissions.json
 EOF
 
