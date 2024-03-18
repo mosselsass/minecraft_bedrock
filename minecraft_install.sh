@@ -51,7 +51,9 @@ WantedBy=multi-user.target
 EOF
 
 #Change permission
-sudo -R mcserver: /data/minecraft_bedrock_updater/
+sudo chmod +x /data/minecraft_bedrock_updater/updater/start_server.sh
+sudo chmod +x /data/minecraft_bedrock_updater/updater/stop_server.sh
+sudo chown -R mcserver: /data/minecraft_bedrock_updater/
 
 #Enable service
 sudo systemctl enable mcbedrock
@@ -155,3 +157,6 @@ sudo chmod +x parameters.sh
 
 #Setup parameters
 sudo -s ./parameters.sh
+
+#Start server
+sudo systemctl start mcbedrock
