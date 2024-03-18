@@ -7,16 +7,14 @@ sudo yum install -y nano java-17-openjdk open-vm-tools curl wget unzip grep open
 sudo pip3 install requests bs4
 sudo dnf install -y epel-release
 sudo dnf install -y screen cockpit
-#sudo dnf install -y ufw
-#sudo systemctl enable --now ufw.service
-sleep 5
 sudo systemctl enable --now cockpit.socket
 sudo systemctl restart cockpit
-sleep 5
 #Exception firewall rules for Java version
-#sudo ufw allow 25565/tcp
+sudo firewall-cmd --zone=public --add-port 25565/tcp --permanent
 #Exception firewall rules for Bedrock version
-#sudo ufw allow 19132/udp
+sudo firewall-cmd --zone=public --add-port 19132/udp --permanent
+#Restart firewall
+sudo systemctl restart firewalld
 #Create directory data at /
 sudo mkdir /data
 #Extract folder
@@ -69,6 +67,8 @@ EOF
 #Restart cron service
 sudo service crond reload
 
-#Start minecraft bedrock
-#sudo systemctl start mcbedrock
+#Stop minecraft bedrock
+sudo systemctl stop mcbedrock
 sudo systemctl status mcbedrock
+
+
