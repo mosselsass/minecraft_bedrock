@@ -66,9 +66,90 @@ cat <<EOF | crontab -
 EOF
 #Restart cron service
 sudo service crond reload
-
 #Stop minecraft bedrock
 sudo systemctl stop mcbedrock
 sudo systemctl status mcbedrock
+#Creating service file
+sudo touch parameters.sh
+#Insert text
+sudo tee > parameters.sh << 'EOF'
+#!/bin/bash
+read -p "Enter your server name : " servername
+sed -i '1s/.*/server-name='$servername'/' /data/minecraft_bedrock_updater/running/server.properties
 
+read -p "Enter the type of game mode --> Choose the number corresponding to the desired mode : survival=1, creative=2, adventure=3 : " gamemode
+if [ $gamemode -eq 1 ];
+then
+	sed -i '5s/.*/gamemode=survival/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $gamemode -eq 2 ];
+then
+	sed -i '5s/.*/gamemode=creative/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $gamemode -eq 3 ];
+then
+	sed -i '5s/.*/gamemode=adventure/' /data/minecraft_bedrock_updater/running/server.properties
+else
+	echo "Default : gamemode=survival"
+fi
 
+read -p "Force game mode --> Choose the number corresponding to the desired mode : true=1 or false=2 : " forcegamemode
+if [ $forcegamemode -eq 1 ];
+then
+	sed -i '9s/.*/force-gamemode=true/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $forcegamemode -eq 2 ];
+then
+	sed -i '9s/.*/force-gamemode=false/' /data/minecraft_bedrock_updater/running/server.properties
+else
+	echo "Default : force-gamemode=false"
+fi
+
+read -p "Set difficulty --> Choose the number corresponding to the desired mode : peaceful=1, easy=2, normal=3, hard=4 : " difficulty
+if [ $difficulty -eq 1 ];
+then
+	sed -i '19s/.*/difficulty=peaceful/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $difficulty -eq 2 ];
+then
+	sed -i '19s/.*/difficulty=easy/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $difficulty -eq 3 ];
+then
+	sed -i '19s/.*/difficulty=normal/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $difficulty -eq 4 ];
+then
+	sed -i '19s/.*/difficulty=hard/' /data/minecraft_bedrock_updater/running/server.properties
+else
+	echo "Default : difficulty=easy"
+fi
+
+read -p "Allow cheat --> Choose the number corresponding to the desired mode : true=1 or false=2 : " allowcheats
+if [ $allowcheats -eq 1 ];
+then
+	sed -i '23s/.*/allow-cheats=true/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $allowcheats -eq 2 ];
+then
+	sed -i '23/.*/allow-cheats=false/' /data/minecraft_bedrock_updater/running/server.properties
+else
+	echo "Default : allow-cheats=false"
+fi
+
+read -p "Allow list --> Choose the number corresponding to the desired mode : true=1 or false=2 : " allowlist
+if [ $allowlist -eq 1 ];
+then
+	sed -i '37s/.*/allow-list=true/' /data/minecraft_bedrock_updater/running/server.properties
+elif [ $allowlist -eq 2 ];
+then
+	sed -i '37/.*/allow-list=false/' /data/minecraft_bedrock_updater/running/server.properties
+else
+	echo "Default : allow-list=false"
+fi
+
+read -p "Enter your Xbox gamername : " gamername
+sudo sed -i '1s/.*/[{"ignoresPlayerLimit":false,"name":tempname}]/' /data/minecraft_bedrock_updater/running/allowlist.json
+sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/allowlist.json
+sudo sed -i '1s/.*/[{"permission": "operator","name": "tempname"}]/' /data/minecraft_bedrock_updater/running/permissions.json
+sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/permissions.json
+EOF
+
+#Change permission
+sudo chmod +x parameters.sh
+
+#Setup parameters
+sudo -s ./minecraft_install.sh
