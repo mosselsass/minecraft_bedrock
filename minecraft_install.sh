@@ -6,16 +6,17 @@ sudo yum update -y
 sudo yum install -y nano java-17-openjdk open-vm-tools curl wget unzip grep openssl git python3 pip libcurl
 sudo pip3 install requests bs4
 sudo dnf install -y epel-release
-sudo dnf install -y screen ufw cockpit
-sudo systemctl enable --now ufw.service
+sudo dnf install -y screen cockpit
+#sudo dnf install -y ufw
+#sudo systemctl enable --now ufw.service
 sleep 5
 sudo systemctl enable --now cockpit.socket
 sudo systemctl restart cockpit
 sleep 5
 #Exception firewall rules for Java version
-sudo ufw allow 25565/tcp
+#sudo ufw allow 25565/tcp
 #Exception firewall rules for Bedrock version
-sudo ufw allow 19132/udp
+#sudo ufw allow 19132/udp
 #Create directory data at /
 sudo mkdir /data
 #Extract folder
