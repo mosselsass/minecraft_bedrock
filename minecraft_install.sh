@@ -154,4 +154,4 @@ EOF
 sudo chmod +x parameters.sh
 
 #Setup parameters
-sudo -s ./minecraft_install.sh
+sudo -s ./parameters.sh
