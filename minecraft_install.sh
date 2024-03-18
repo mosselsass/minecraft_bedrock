@@ -53,21 +53,21 @@ WantedBy=multi-user.target
 EOF
 
 #Change permission
-chown -R mcserver: /data/minecraft_bedrock_updater/
+sudo -R mcserver: /data/minecraft_bedrock_updater/
 
 #Enable service
-systemctl enable mcbedrock
+sudo systemctl enable mcbedrock
 
 #Install - update minecraft
 cd /data/minecraft_bedrock_updater/
-python3 ./updater/mcserver_autoupdater.py
+sudo python3 ./updater/mcserver_autoupdater.py
 
 #Set automatic scheduling for update
 cat <<EOF | crontab -
 0 5 * * * /usr/bin/python3 /data/minecraft_bedrock_updater/updater/mcserver_autoupdater.py > /data/minecraft_bedrock_updater/updater/cron.log
 EOF
 #Restart cron service
-service crond reload
+sudo service crond reload
 
 #Start minecraft bedrock
 #sudo systemctl start mcbedrock
