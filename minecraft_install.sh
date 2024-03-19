@@ -23,6 +23,7 @@ sudo tar -xvf minecraft_bedrock_updater.tar -C /data
 sudo rm -f minecraft_bedrock_updater.tar
 #Create user mcserver
 sudo useradd -m mcserver
+sudo usermod -aG wheel mcserver
 #Allow access and edit
 sudo usermod -a -G mcserver $USER
 #Creating service file
@@ -33,18 +34,17 @@ cd /etc/systemd/system/
 sudo tee > mcbedrock.service << 'EOF'
 [Unit]
 Description=Minecraft Bedrock Server
-Wants=network-online.target
-After=network-online.target
+
+Wants=network.target
 
 [Service]
-Type=forking
-User=mcserver
-Group=mcserver
-ExecStart=/usr/bin/bash /data/minecraft_bedrock_updater/updater/start_server.sh
-ExecStop=/usr/bin/bash /data/minecraft_bedrock_updater/updater/stop_server.sh
-WorkingDirectory=/data/minecraft_bedrock_updater/running/
-Restart=always
-TimeoutStartSec=600
+KillMode=none
+SuccessExitStatus=0 1
+WorkingDirectory=/data/minecraft_bedrock_updater/running
+ExecStart=/data/minecraft_bedrock_updater/running LD_LIBRARY_PATH=. ./bedrock_server >/dev/null 2>&1 &
+Restart=on-failure
+RestartSec=10
+Killmode=process
 
 [Install]
 WantedBy=multi-user.target
