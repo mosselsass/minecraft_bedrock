@@ -43,9 +43,8 @@ User=mcserver
 Group=mcserver
 SuccessExitStatus=0 1
 WorkingDirectory=/data/minecraft_bedrock_updater/updater
-ExecStart=/usr/bin/bash /data/minecraft_bedrock_updater/updater ./start_server.sh >/dev/null 2>&1 &
-ExecStop=/usr/bin/bash /data/minecraft_bedrock_updater/updater ./stop_server.sh >/dev/null 2>&1 &
-WorkingDirectory=/data/minecraft_bedrock_updater/running/
+ExecStart=/usr/bin/bash ./start_server.sh >/dev/null 2>&1 &
+ExecStop=/usr/bin/bash  ./stop_server.sh >/dev/null 2>&1 &
 Restart=always
 RestartSec=10
 TimeoutStartSec=600
@@ -151,10 +150,10 @@ else
 fi
 
 read -p "Enter your Xbox gamername : " gamername
-sudo sed -i '1s/.*/[{"ignoresPlayerLimit":false,"name":tempname,"xuid":""}]/' /data/minecraft_bedrock_updater/running/allowlist.json
+sudo sed -i '1s/.*/[{"ignoresPlayerLimit":false,"name":"tempname","xuid":""}]/' /data/minecraft_bedrock_updater/running/allowlist.json
 sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/allowlist.json
-sudo sed -i '1s/.*/[{"permission": "operator","name": "tempname","xuid":""}]/' /data/minecraft_bedrock_updater/running/permissions.json
-sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/permissions.json
+#sudo sed -i '1s/.*/[{"permission": "operator","name": "tempname","xuid":""}]/' /data/minecraft_bedrock_updater/running/permissions.json
+#sudo sed -i -e 's/tempname/'$gamername'/g' /data/minecraft_bedrock_updater/running/permissions.json
 EOF
 
 #Change permission
