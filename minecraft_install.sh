@@ -34,16 +34,21 @@ cd /etc/systemd/system/
 sudo tee > mcbedrock.service << 'EOF'
 [Unit]
 Description=Minecraft Bedrock Server
-
-Wants=network.target
+Wants=network-online.target
+After=network-online.target
 
 [Service]
-KillMode=none
+Type=forking
+User=mcserver
+Group=mcserver
 SuccessExitStatus=0 1
-WorkingDirectory=/data/minecraft_bedrock_updater/running
-ExecStart=/data/minecraft_bedrock_updater/running LD_LIBRARY_PATH=. ./bedrock_server >/dev/null 2>&1 &
-Restart=on-failure
+WorkingDirectory=/data/minecraft_bedrock_updater/updater
+ExecStart=/usr/bin/bash /data/minecraft_bedrock_updater/updater ./start_server.sh >/dev/null 2>&1 &
+ExecStop=/usr/bin/bash /data/minecraft_bedrock_updater/updater ./stop_server.sh >/dev/null 2>&1 &
+WorkingDirectory=/data/minecraft_bedrock_updater/running/
+Restart=always
 RestartSec=10
+TimeoutStartSec=600
 Killmode=process
 
 [Install]
